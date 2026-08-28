@@ -2,7 +2,13 @@
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "cloudflare-knowledge-lab",
   "main": "./src/worker/index.ts",
-  "compatibility_date": "2026-08-21",
+  "compatibility_date": "2026-08-18",
+  "routes": [
+    {
+      "pattern": "lab.jimmyavila.com",
+      "custom_domain": true
+    }
+  ],
   "assets": {
     "not_found_handling": "single-page-application",
     "run_worker_first": ["/api/*"]
@@ -14,7 +20,7 @@
   "vars": {
     "ENVIRONMENT": "local",
     "AI_GATEWAY_ID": "knowledge-lab",
-    "TURNSTILE_SITE_KEY": "1x00000000000000000000AA"
+    "TURNSTILE_SITE_KEY": "0x4AAAAAAEahPQOA6PIvbBs4"
   },
   "secrets": {
     "required": ["TURNSTILE_SECRET_KEY"]
@@ -24,11 +30,11 @@
     {
       "binding": "DB",
       "database_name": "knowledge-lab-db",
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      "database_id": "aa76a676-4a0b-40a3-ba45-d47bdb22d9e5",
       "migrations_dir": "migrations"
     }
   ],
-  "kv_namespaces": [{ "binding": "SESSIONS", "id": "00000000000000000000000000000000" }],
+  "kv_namespaces": [{ "binding": "SESSIONS", "id": "27941d5c793647e49409d080810a2cbe" }],
   "r2_buckets": [{ "binding": "DOCUMENTS", "bucket_name": "knowledge-lab-documents" }],
   "vectorize": [{ "binding": "VECTOR_INDEX", "index_name": "knowledge-lab-index" }],
   "queues": {
