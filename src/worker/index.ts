@@ -29,8 +29,13 @@ app.post("/api/auth/register", async (context) => {
   try {
     await context.env.DB.prepare("INSERT INTO users (id, email, password_hash, password_salt) VALUES (?, ?, ?, ?)")
       .bind(id, email, passwordHash, salt).run();
-  } catch {
-    return context.json({ error: "An account with that email already exists" }, 409);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    if (message.includes("UNIQUE constraint failed: users.email")) {
+      return context.json({ error: "An account with that email already exists" }, 409);
+    }
+    console.error("Account registration failed", error);
+    return context.json({ error: "Could not create account" }, 500);
   }
   const user = { id, email };
   return context.json({ token: await issueSession(context.env, user), user }, 201);
